@@ -1,0 +1,93 @@
+<?php
+require __DIR__ . '\..\..\vendor\slim-mvc\lazy-load\composer-mnapoli-silly\vendor\autoload.php';
+
+use App\models\product\Product;
+
+use Symfony\Component\Console\Output\OutputInterface;
+
+$_SERVER['REQUEST_URI'] = '///';
+if (isset($argv) && isset($argv[2]) && strpos($argv[2],'/')!==false) {
+	$_SERVER['REQUEST_URI'] = '/'. ltrim($argv[2],'/') . '/';
+} else if (isset($argv) && isset($argv[2])) {
+	echo "\n";
+	echo "Có thể cần nhập Alias-Module khi tạo mới model thuộc về Alias ấy:\n";
+	echo "\n";
+	//$p = readline('Tên model mới (Bỏ trống = không sử dụng):');
+	$m = readline('Alias Module (Bỏ trống = không sử dụng):');
+	echo "\n";
+	echo "\n";
+	$_SERVER['REQUEST_URI'] = '/'.trim($m).'//';
+}
+require __DIR__ . '/../../common/bootstrap.php';
+
+//require $psr4PathHelper->aliasToFull('hSlim\lazy-load\composer-mnapoli-silly\vendor\autoload.php', true);
+
+$app = new Silly\Application();
+
+// Silly will use PHP-DI for dependency injection based on type-hints
+$app->useContainer($container, $injectWithTypeHint = true);
+
+
+$app->command('/?', function (OutputInterface $output) {
+    $output->writeln('<comment>Slim4-Mod console help:</comment>');
+	
+	$output->writeln('Chức năng chính là dùng để tự động tạo mới model.');
+	
+	$output->writeln(' ');
+	$output->writeln('<comment>Gồm các lệnh như ví dụ ở dưới:</comment>');
+	
+	$output->writeln(' ');
+	$output->writeln('<info>console new-model <<NEW_MODEL>>	//tạo mới model</info>');
+	$output->writeln('<info>console product-list //liệt kê toàn bộ bảng product</info>');
+	$output->writeln(' ');
+	$output->writeln('<comment>==================</comment>');
+	
+});
+
+
+// This command is implemented using a closure. We can still benefit from dependency
+// injection in the parameters of the closure because Silly + PHP-DI is awesome.
+$app->command('product-list', function (OutputInterface $output, Product $model) {
+    $output->writeln('<comment>Here are the data in the model:</comment>');
+
+    $data = $model->findAll();
+	
+	foreach ($data as $row) {
+        $output->writeln(sprintf(
+            'Id #%d: <info>%s</info>',
+            $row->getId(),
+            $row->getName()
+        ));
+    }
+});
+
+
+$app->command('new-model [newModuleName]', function ($newModuleName, OutputInterface $output) {
+    $output->writeln('<comment>Chức năng <info>autoGen</info> - tự động tạo cấu trúc file cho "new-model" :</comment>');
+	$psr4PathHelper = &$GLOBALS['psr4PathHelper'];//->get('psr4PathHelper');
+
+	$func = require $psr4PathHelper->aliasToFull('hSlim/Base/AutoGen.php', true); 
+	
+	$hasM = false;
+	if (strpos($newModuleName,'/')!==false) {
+		$hasM = true;
+		$newModuleName = substr($newModuleName, strrpos($newModuleName,'/')+1);
+	}
+	
+	echo "\n";
+	$c = readline('Enter để xác nhận tạo module mới' . (!$hasM ? ' (không có Alias)' : '') . ' - [Y]: ');
+	if (!empty($c) && ucfirst($c)!=='Y') {
+		$output->writeln("<info>Đã hủy tác vụ.</info>\n");
+		return;
+	}
+	
+	$exitcode = $func($newModuleName, $psr4PathHelper);
+	if ($exitcode == 0) {
+	  $output->writeln(
+		  "\nSau khi tạo bảng <comment>$newModuleName</comment> với tối thiểu 2 cột 'id' và 'name', hãy chạy lệnh như dưới để xem nội dung:\n
+><info>console product-list</info>\n"
+		);
+	}
+});
+
+$app->run();

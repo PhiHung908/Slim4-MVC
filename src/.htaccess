@@ -1,0 +1,8 @@
+Require all granted
+
+RewriteEngine on
+
+RewriteRule "!web/" - [L,F]
+
+RewriteRule ^$ web/ [L]
+RewriteRule (.*) web/$1 [L]
