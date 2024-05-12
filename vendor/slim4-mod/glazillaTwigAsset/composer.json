@@ -1,0 +1,23 @@
+{
+    "name": "glazilla/twig-asset",
+    "description": "A simple twig asset extension for Slim 3.x & Slim 4.x",
+    "type": "library",
+    "require": {
+        "php": ">=7.4.0",
+        "psr/http-message": "^1.0",
+        "symfony/asset": "^4.2",
+        "twig/twig": "^2.0|^3.4"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sylvain M.",
+            "email": "glazilla@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Glazilla\\TwigAsset\\": "src"
+        }
+    }
+}

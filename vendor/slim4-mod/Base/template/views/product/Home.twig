@@ -1,0 +1,39 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+
+    <h1>Welcome to the blog!</h1>
+	<h4>Bad!</h4>
+		<p>1- Khi đã cache, nếu tpl có thay đổi thì không ứng theo mà vẫn giữ tpl cũ !!!</p>
+		<p>2- Symfony nạp trước các core quá nhiều </p>
+    <p>Have a look at our articles:</p>
+
+    <ul class="collection">
+
+        {% for article in articles %}
+            <li class="collection-item avatar">
+
+                <i class="mdi-editor-insert-comment circle"></i>
+
+                <span class="title">{{ article.title }}</span>
+
+                <p>{{ article.content }}</p>
+
+                <p><a href="/article/{{ article.id }}">Read more</a></p>
+
+            </li>
+        {% endfor %}
+
+    </ul>
+
+    <hr/>
+	
+    <p>
+        Sau khi tạo bảng <span style="color:red">{{ model.modelName }}</span> với tối thiểu 2 cột 'id' và 'name', bạn có thể gõ vào dòng lệnh như dưới để xem nội dung:
+    </p>
+
+    <div class="card-panel grey darken-3" style="color: white">
+        <pre><code>&gt;console #TPL_PRODUCT#-list</code></pre>
+    </div>
+
+{% endblock %}

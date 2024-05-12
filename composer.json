@@ -1,0 +1,35 @@
+{
+	"name": "slim4-mod/mvc",
+    "description": "Slim4-MVC tiny and faster MVC framework for PHP",
+	"keywords": ["slim MVC framework", "slim","slim route","slim connect","slim conn db","slim4 route","slim4 conn"],
+	"homepage": "https://github.com/PhiHung908",
+    "support": {
+        "issues": "https://github.com/PhiHung908/Slim4-MVC/issues",
+        "source": "https://github.com/PhiHung908/Slim4-MVC.git"
+    },
+	"type": "slim4-mod",
+	"license": "MIT",
+	"authors": [
+        {
+            "name": "Phi Hùng",
+            "email": "vmkeyb908@gmail.com"
+        }
+    ],
+	"minimum-stability": "dev",
+    "require": {
+        "slim/slim": "4.*",
+		"guzzlehttp/psr7": "^2",
+		"php-di/php-di": "dev-master",
+        "monolog/monolog": "^3.6",
+		"doctrine/orm": "4.0.x-dev",
+		"symfony/cache": "7.1.x-dev",
+		"slim/csrf": "1.x-dev",
+		"slim/php-view": "3.x-dev",
+		"laminas/laminas-escaper": "2.14.x-dev"
+    },
+    "autoload": {
+        "psr-4": {
+			"hSlim\\": "vendor/slim4-mod/"
+        }
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "name": "slim4-mod/smarty-view",
+    "description": "Slim4-Mod view with smarty v.5",
+    "type": "library",
+    "license": "MIT",
+	"require": {
+		"smarty/smarty": "^5.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "hSlim\\Views\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Phi Hùng",
+            "email": "vmkeyb908@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
